@@ -1,0 +1,118 @@
+<div class="margin-div">
+  <div class="assignment-edit">
+
+    <h1>{{title}}</h1>
+
+    <p *ngIf="this.assignmentId && !assignment"><em>Loading…</em></p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <p>
+        <mat-error *ngIf="form.invalid && form.hasError('isDupeAssignment')">
+          <strong>ERROR</strong>:
+          A assignment with the same <i>AssignDate</i>, <i>Project</i>,
+          <i>Employee</i>, <i>AssignJobId</i>, <i>AssignHourCharge</i>, <i>Hours</i> and <i>Charge</i> already exists.
+        </mat-error>
+      </p>
+
+      <!-- AssignDate -->
+      <mat-form-field>
+        <mat-label>AssignDate:</mat-label>
+        <input matInput formControlName="assignDate" required
+               placeholder="Insert assignDate">
+        <mat-error *ngIf="this.form.controls['assignDate'].errors?.['required']">
+          AssignDate is required.
+          <!--</mat-error>
+          <mat-error *ngIf="this.form.controls['assignDate'].errors?.['isDupeField']">
+            Assignment assignDate already exists: please choose another.-->
+        </mat-error>
+      </mat-form-field>
+
+      <!-- ProjectId -->
+      <mat-form-field *ngIf="projects">
+        <mat-label>Select a Project...</mat-label>
+        <mat-select id="projectId" formControlName="projectId">
+          <mat-option *ngFor="let project of projects"
+                      [value]="project.projectId">
+            {{project.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="this.form.controls['projectId'].errors?.['required']">
+          Please select a Project.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- EmployeeId -->
+      <mat-form-field *ngIf="employees">
+        <mat-label>Select a Employee...</mat-label>
+        <mat-select id="employeeId" formControlName="employeeId">
+          <mat-option *ngFor="let employee of employees"
+                      [value]="employee.employeeId">
+            {{employee.firstName}} {{employee.lastName}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="this.form.controls['employeeId'].errors?.['required']">
+          Please select a Employee.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- AssignJobId -->
+      <mat-form-field *ngIf="jobs">
+        <mat-label>Select a Job...</mat-label>
+        <mat-select id="assignJobId" formControlName="assignJobId">
+          <mat-option *ngFor="let job of jobs"
+                      [value]="job.jobId">
+            {{job.description}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="this.form.controls['assignJobId'].errors?.['required']">
+          Please select a Job.
+        </mat-error>
+      </mat-form-field>
+
+
+      <!-- AssignHourCharge -->
+      <mat-form-field>
+        <mat-label>AssignHourCharge:</mat-label>
+        <input matInput formControlName="assignHourCharge" required
+               placeholder="Insert assignHourCharge">
+        <mat-error *ngIf="this.form.controls['assignHourCharge'].errors?.['required']">
+          AssignHourCharge is required.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Hours -->
+      <mat-form-field>
+        <mat-label>Hours:</mat-label>
+        <input matInput formControlName="hours" required
+               placeholder="Insert hours">
+        <mat-error *ngIf="this.form.controls['hours'].errors?.['required']">
+          Hours is required.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Charge -->
+      <mat-form-field>
+        <mat-label>Charge:</mat-label>
+        <input matInput formControlName="charge" required
+               placeholder="Insert charge">
+        <mat-error *ngIf="this.form.controls['charge'].errors?.['required']">
+          Charge is required.
+        </mat-error>
+      </mat-form-field>
+
+      <div>
+        <button mat-flat-button color="primary"
+                type="submit">
+          {{ this.assignmentId ? "Save" : "Create" }}
+        </button>
+
+        <button mat-flat-button color="secondary"
+                [routerLink]="['/assignments']">
+          Cancel
+        </button>
+
+      </div>
+    </form>
+  </div>
+</div>
